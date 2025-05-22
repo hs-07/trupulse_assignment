@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getAllNotes } from "@/lib/indexedDb";
-
+import ReactMarkdown from "react-markdown";
 import {
   Container,
   Typography,
@@ -12,6 +11,8 @@ import {
   CardContent,
   CardActionArea,
 } from "@mui/material";
+
+import { getAllNotes } from "@/lib/indexedDb";
 
 export default function NotesList() {
   const [notes, setNotes] = useState([]);
@@ -36,13 +37,19 @@ export default function NotesList() {
 
       <Stack spacing={2}>
         {notes?.map((note) => (
-          <Link href={`/edit/${note.id}`} key={note.id} passHref>
+          <Link
+            href={`/edit/${note.id}`}
+            key={note.id}
+            passHref
+            style={{ textDecoration: "none" }}
+          >
             <Card variant="outlined">
               <CardActionArea>
                 <CardContent>
-                  <Typography variant="h6">
+                  <Typography variant="h4">
                     {note.title || "Untitled"}
                   </Typography>
+                  <ReactMarkdown>{note.content}</ReactMarkdown>
                   <Typography variant="body2" color="text.secondary">
                     Last updated: {new Date(note.updatedAt).toLocaleString()}
                   </Typography>
